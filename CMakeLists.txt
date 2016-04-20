@@ -17,14 +17,8 @@ if(NOT OGRE_OV_FOUND)
   pkg_check_modules(OGRE_OV REQUIRED OGRE)
 endif(NOT OGRE_OV_FOUND)
 
-find_package(catkin REQUIRED COMPONENTS
-  roscpp
-  rviz
-  nav_msgs
-  sensor_msgs
-)
-
-catkin_package()
+find_package(catkin_simple REQUIRED)
+catkin_simple(ALL_DEPS_REQUIRED)
 
 set(${PROJECT_NAME}_SOURCES
   src/aerialmap_display.cpp
@@ -56,7 +50,7 @@ set(PROJECT_SOURCE_FILES
   ${${PROJECT_NAME}_MOCSrcs}
 )
 
-add_library(${PROJECT_NAME}
+cs_add_library(${PROJECT_NAME}
   ${PROJECT_SOURCE_FILES}
 )
 
@@ -65,3 +59,11 @@ target_link_libraries(${PROJECT_NAME}
   ${OpenCV_LIBRARIES}
   ${catkin_LIBRARIES}
 )
+
+install(FILES
+  plugin_description.xml
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
+
+cs_install()
+cs_export()
